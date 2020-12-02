@@ -6,18 +6,20 @@ import java.util.Random;
  * Crée par Bonacventure Gbehe et Rebecca Ehua
  */
 
-public class Requin {
+public class Requin extends Thread {
 
     //La zone precedente du requin
-    private Zone currentZone = null ;
+    private Zone previousZone ; ;
+    //La zone actuelle du requin
+    private Zone currentZone ; ;
     //La nouvelle zone du requin
-    private Zone nextZone = null ;
+    private Zone nextZone ; ;
     //L'océan dans lequel évolue le requin
     private Ocean ocean ;
 
     public  Requin (Zone zone ){
         this.currentZone = zone ;
-        //this.ocean = currentZone.getOcean() ;
+        this.ocean = currentZone.getOcean() ;
     }
 
     //le requin se deplace
@@ -70,9 +72,28 @@ public class Requin {
         //Trouver la prochaine zone
         nextZone =  ocean.findZone(nextZoneX,nextZoneY ) ;
 
+        if(nextZone == null){ move(); }
+
+        nextZone.entrer(this);
+
+    }
+
+    /**
+     * Cette methode doit être appeler dans la nouvelle zone où le requin veut entrer
+     * @param zone la nouvelle
+     */
+    public void setZone(Zone zone){
+        //Sortir de la zone actuelle
+        currentZone.sortir();
+        //la zone habituelle est devenue ancienne
+        this.previousZone = currentZone ;
+        //une nouvelle zone
+        this.currentZone = zone ;
     }
 
 
-
-
+    @Override
+    public void run() {
+        move();
+    }
 }

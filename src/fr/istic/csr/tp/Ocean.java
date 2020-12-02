@@ -19,31 +19,14 @@ public class Ocean {
         Zone zone = null ;
 
         for (Zone z :listZone) {
-          /*  if (z.getX() == X && z.getY() == Y){
+            if (z.getX() == X && z.getY() == Y){
                 zone = z ;
                 break;
             }
-
-           */
         }
 
         return  zone ;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public static void main(String[] args) {
 	// write your code here
