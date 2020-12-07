@@ -3,7 +3,7 @@ package fr.istic.csr.tp;
 import java.util.Random;
 
 /***
- * Crée par Bonacventure Gbehe et Rebecca Ehua
+ * Crée par Bonaventure Gbehe et Rebecca Ehua
  */
 
 public class Requin extends Thread {
@@ -16,11 +16,20 @@ public class Requin extends Thread {
     private Zone nextZone ; ;
     //L'océan dans lequel évolue le requin
     private Ocean ocean ;
+    private String nom ;
+    private  int cycleDeVie = 4 ;
+    private static final int NB_PILOTE_MAX =  10 ;
+    private  int nb_poisson_pilote =  0 ;
 
     public  Requin (Zone zone ){
         this.currentZone = zone ;
+        this.nom ="R"+zone.getNom() ;
         this.ocean = currentZone.getOcean() ;
     }
+
+    public String getNom() { return  this.nom ; }
+
+    public Zone getZone() { return this.currentZone ;}
 
     //le requin se deplace
     private  void move(){
@@ -46,8 +55,8 @@ public class Requin extends Thread {
 
             // Control d'un nouvelles coordonnées qu'on vient de definir
             if(nextZoneX< 0){
-                nextZoneX = ocean.nombreZone - 1 ;
-            }else if (nextZoneX > ocean.nombreZone - 1 ){
+                nextZoneX = ocean.dimension - 1 ;
+            }else if (nextZoneX > ocean.dimension - 1 ){
                 nextZoneX = 0 ;
             }
 
@@ -63,8 +72,8 @@ public class Requin extends Thread {
 
             // Control d'un nouvelles coordonnées qu'on vient de definir
             if(nextZoneY< 0){
-                nextZoneY = ocean.nombreZone - 1 ;
-            }else if (nextZoneY > ocean.nombreZone - 1 ){
+                nextZoneY = ocean.dimension - 1 ;
+            }else if (nextZoneY > ocean.dimension - 1 ){
                 nextZoneY = 0 ;
             }
         }
@@ -84,16 +93,68 @@ public class Requin extends Thread {
      */
     public void setZone(Zone zone){
         //Sortir de la zone actuelle
-        currentZone.sortir();
-        //la zone habituelle est devenue ancienne
-        this.previousZone = currentZone ;
+        if( currentZone != null){
+            currentZone.sortir();
+        }
         //une nouvelle zone
         this.currentZone = zone ;
+        cycleDeVie -- ;
+    }
+
+
+    public synchronized void prendrePoisonPilote(PoisonPilote poisonPilote) {
+        while (nb_poisson_pilote>=NB_PILOTE_MAX){
+            try {wait(); } catch (InterruptedException e) { e.printStackTrace(); }
+        }
+        poisonPilote.setRequin(this);
+        nb_poisson_pilote++ ;
+        System.out.println("Le poison pilote "+poisonPilote.getNom()+" a commencé à suivre le requin "+nom+" dans la zone "+currentZone.getNom());
+
+    }
+
+    public synchronized void laisserPoisonPilote(PoisonPilote poisonPilote) {
+        if (  (!poisonPilote.getZone().equals(this.currentZone) && (currentZone != null) ) ){
+
+            poisonPilote.setRequin(null);
+            poisonPilote.setZone(this.currentZone);
+            nb_poisson_pilote -- ;
+            notifyAll();
+
+            System.out.println("Le poison pilote "+poisonPilote.getNom()+" a arreté de suivre le requin "+nom+" dans la zone "+currentZone.getNom());
+
+        }
+    }
+
+    private void demeurerDansLaZone(){
+        Random rand = new Random();
+        int temps = rand.nextInt(5) + 1;
+        temps = temps*100 ;
+
+        try { sleep(temps); } catch (InterruptedException e) { e.printStackTrace(); }
+
     }
 
 
     @Override
     public void run() {
-        move();
+
+        while ( cycleDeVie > 0){
+            move();
+
+            demeurerDansLaZone() ;
+
+            
+
+        }
+
+
+
+
+
+
+
     }
+
+
+
 }
