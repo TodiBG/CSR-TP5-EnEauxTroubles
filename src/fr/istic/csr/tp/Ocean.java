@@ -35,15 +35,17 @@ public class Ocean {
         for (int x = 0 ; x < dimension ; x ++ ){
             for (int y = 0 ; y < dimension ; y++ ){
                 listZone.add(new Zone(this,x,y,Nb_sardines_by_Zone, numero )) ;
-                numero = 1 ;
+                numero ++ ;
+                if(numero < 3){}
+
             }
         }
 
         for (Zone zone: listZone) { zone.startRequin();}
-        for (Zone zone: listZone) { zone.joinRequin() ; }
-
         for (Zone zone: listZone) { zone.pilotesStart();}
+
         for (Zone zone: listZone) { zone.pilotesJoin(); ; }
+        for (Zone zone: listZone) { zone.joinRequin() ; }
     }
 
     public static void main(String[] args) {

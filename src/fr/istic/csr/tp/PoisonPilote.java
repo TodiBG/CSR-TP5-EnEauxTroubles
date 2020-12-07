@@ -6,6 +6,8 @@ public class PoisonPilote extends Thread {
     private Requin requin ;
     private Zone zone ;
     private String nom ;
+    // Le pilote est libre (n'est pas occupé à suivre un requin actuellement)
+    private boolean libre = true ;
 
     public PoisonPilote(Zone zone,int numero){
         this.zone = zone;
@@ -17,9 +19,16 @@ public class PoisonPilote extends Thread {
      * @param requin, le requi à suivre
      */
     private void suivre(Requin requin){
-        if (requin != null){
-            requin.prendrePoisonPilote(this);
+
+        if(libre){
+            if ((requin != null) && (this.zone.equals(requin.getZone()) ) ){
+                requin.prendrePoisonPilote(this);
+            }
         }
+    }
+
+    public void setLibre(boolean libre) {
+        this.libre = libre;
     }
 
     public String getNom() {
@@ -41,12 +50,9 @@ public class PoisonPilote extends Thread {
     /**
      * Le poison arrêter de suis son requin
      */
-    public void laisserLeRequi(){
-        if( (this.zone != null) && (this.requin != null) ){
-
-            if( !(this.zone.equals(requin.getZone())) ){
-                requin.laisserPoisonPilote(this);
-            }
+    public void laisserLeRequin(){
+        if (requin != null){
+            requin.laisserPoisonPilote(this);
         }
     }
 
@@ -55,8 +61,9 @@ public class PoisonPilote extends Thread {
 
         while (true){
             suivre(zone.getRequin()) ;
+            try {sleep(500); } catch (InterruptedException e) {e.printStackTrace(); }
 
-            laisserLeRequi() ;
+            laisserLeRequin() ;
         }
     }
 }

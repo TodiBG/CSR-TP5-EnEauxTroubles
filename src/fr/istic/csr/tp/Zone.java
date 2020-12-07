@@ -11,7 +11,7 @@ public class Zone {
     private String nom ="" ;
     private int nb_sardines;
     private Requin requin ;
-    private final  int nombrePoisonPilote = 20 ;
+    private final  int nombrePoisonPilote = 5 ;
 
     private List<PoisonPilote> listDesPoisonPilotes = new ArrayList<>() ;
 
@@ -59,6 +59,7 @@ public class Zone {
     //un requin entre dans la zone
     public synchronized void entrer(Requin req){
         while ((requin != null)&& (!req.equals(requin) )){
+            //System.out.println("Le requin "+requin.getNom()+" mis en attente dans la zone Z"+this.nom);
             try {wait();} catch (InterruptedException e) { e.printStackTrace();}
         }
         this.requin = req ;

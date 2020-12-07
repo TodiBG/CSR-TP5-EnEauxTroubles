@@ -1,5 +1,7 @@
 package fr.istic.csr.tp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /***
@@ -18,13 +20,14 @@ public class Requin extends Thread {
     private Ocean ocean ;
     private String nom ;
     private  int cycleDeVie = 4 ;
-    private static final int NB_PILOTE_MAX =  10 ;
-    private  int nb_poisson_pilote =  0 ;
+    private static final int NB_PILOTE_MAX =  4 ;
+    private List<PoisonPilote> listPilotes ;
 
     public  Requin (Zone zone ){
         this.currentZone = zone ;
         this.nom ="R"+zone.getNom() ;
         this.ocean = currentZone.getOcean() ;
+        listPilotes = new ArrayList<>() ;
     }
 
     public String getNom() { return  this.nom ; }
@@ -33,6 +36,12 @@ public class Requin extends Thread {
 
     //le requin se deplace
     private  void move(){
+        nextZone = chercherUneZone() ;
+        nextZone.entrer(this);
+    }
+
+
+    private Zone chercherUneZone(){
         int nextZoneX = currentZone.getX() ;
         int nextZoneY = currentZone.getY() ;
 
@@ -79,12 +88,11 @@ public class Requin extends Thread {
         }
 
         //Trouver la prochaine zone
-        nextZone =  ocean.findZone(nextZoneX,nextZoneY ) ;
+        Zone zone =  ocean.findZone(nextZoneX,nextZoneY ) ;
 
-        if(nextZone == null){ move(); }
+        if(zone == null){ chercherUneZone(); }
 
-        nextZone.entrer(this);
-
+        return zone ;
     }
 
     /**
@@ -92,37 +100,55 @@ public class Requin extends Thread {
      * @param zone la nouvelle
      */
     public void setZone(Zone zone){
-        //Sortir de la zone actuelle
-        if( currentZone != null){
-            currentZone.sortir();
-        }
         //une nouvelle zone
         this.currentZone = zone ;
         cycleDeVie -- ;
+
+        //Si le requin change de zone alors tous ses pilotes doivent changer de zone égalment
+        for (PoisonPilote poisson : listPilotes ) {
+            poisson.setZone(this.currentZone);
+        }
     }
 
 
     public synchronized void prendrePoisonPilote(PoisonPilote poisonPilote) {
-        while (nb_poisson_pilote>=NB_PILOTE_MAX){
-            try {wait(); } catch (InterruptedException e) { e.printStackTrace(); }
+        if(cycleDeVie > 0) {
+            while (listPilotes.size() >= NB_PILOTE_MAX) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            poisonPilote.setRequin(this);
+            listPilotes.add(poisonPilote);
+
+            //le pilote n'est plus libre
+            poisonPilote.setLibre(false);
+
+            System.out.println("Le poison pilote " + poisonPilote.getNom() + " a commencé à suivre le requin " + nom + " dans la zone " + currentZone.getNom());
+            notifyAll();
         }
-        poisonPilote.setRequin(this);
-        nb_poisson_pilote++ ;
-        System.out.println("Le poison pilote "+poisonPilote.getNom()+" a commencé à suivre le requin "+nom+" dans la zone "+currentZone.getNom());
 
     }
 
     public synchronized void laisserPoisonPilote(PoisonPilote poisonPilote) {
-        if (  (!poisonPilote.getZone().equals(this.currentZone) && (currentZone != null) ) ){
+
+            while ( (!poisonPilote.getZone().equals(this.currentZone) && (currentZone != null) ) ){
+                try {wait(); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
 
             poisonPilote.setRequin(null);
             poisonPilote.setZone(this.currentZone);
-            nb_poisson_pilote -- ;
-            notifyAll();
+            listPilotes.remove(poisonPilote)  ;
+
+            //le pilote est libre à nouveau
+            poisonPilote.setLibre(true) ;
 
             System.out.println("Le poison pilote "+poisonPilote.getNom()+" a arreté de suivre le requin "+nom+" dans la zone "+currentZone.getNom());
 
-        }
+            notifyAll();
+
     }
 
     private void demeurerDansLaZone(){
@@ -143,16 +169,13 @@ public class Requin extends Thread {
 
             demeurerDansLaZone() ;
 
-            
-
+            //Sortir de la zone actuelle
+            if( currentZone != null){
+                currentZone.sortir();
+            }
         }
 
-
-
-
-
-
-
+        System.out.println("LE REQUIN "+nom+" ES MORT !!");
     }
 
 
