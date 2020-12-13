@@ -1,9 +1,15 @@
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
+
 package fr.istic.csr.tp;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
 public class Zone {
     Ocean ocean ;
     private int x;

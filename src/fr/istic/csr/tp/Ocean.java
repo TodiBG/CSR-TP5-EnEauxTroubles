@@ -1,8 +1,14 @@
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
+
 package fr.istic.csr.tp;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
 public class Ocean {
 
     public static final int dimension = 10 ;

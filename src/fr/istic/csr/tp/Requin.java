@@ -1,3 +1,7 @@
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
+
 package fr.istic.csr.tp;
 
 import java.util.ArrayList;
@@ -5,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 /***
- * Crée par Bonaventure Gbehe et Rebecca Ehua
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
  */
 
 public class Requin extends Thread {

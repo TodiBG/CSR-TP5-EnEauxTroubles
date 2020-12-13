@@ -1,5 +1,7 @@
+/***
+ * @author  Bonaventure Gbehe (Todi BG)  &&  Rebecca Ehua
+ */
 package fr.istic.csr.tp;
-
 public class PoisonPilote extends Thread {
 
     //Le requin suivi par le poison
