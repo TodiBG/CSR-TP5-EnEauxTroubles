@@ -31,7 +31,7 @@ public class Zone {
 
         //les zones de nummero pair auront un requin par  defaut
         //et celles de nulero impair n'auront pas de requin pardeut
-        if (numero%2 == 0 ){
+        if (numero == 1 || numero == 15   ){
             this.requin = new Requin(this) ;
         }
         createPilote() ;
@@ -91,13 +91,13 @@ public class Zone {
             aManger = nb_sardines ;
             nb_sardines = 0 ;
         }
-        System.out.println("Le requin "+requin.getNom()+" a mangé "+aManger+" sardines dans la zone Z"+this.nom);
+        //System.out.println("Le requin "+requin.getNom()+" a mangé "+aManger+" sardines dans la zone Z"+this.nom);
 
     }
 
     // un requin sort de la zone
     public synchronized void   sortir(){
-        System.out.println("Le requin "+requin.getNom()+" sort de  la zone Z"+this.nom);
+        //System.out.println("Le requin "+requin.getNom()+" sort de  la zone Z"+this.nom);
         this.requin = null ;
         notifyAll();
     }

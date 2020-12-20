@@ -23,7 +23,7 @@ public class Requin extends Thread {
     //L'océan dans lequel évolue le requin
     private Ocean ocean ;
     private String nom ;
-    private  int cycleDeVie = 4 ;
+    private  int cycleDeVie = 200 ;
     private static final int NB_PILOTE_MAX =  4 ;
     private List<PoisonPilote> listPilotes ;
 
@@ -103,7 +103,7 @@ public class Requin extends Thread {
      * Cette methode doit être appeler dans la nouvelle zone où le requin veut entrer
      * @param zone la nouvelle
      */
-    public void setZone(Zone zone){
+    public synchronized void  setZone(Zone zone){
         //une nouvelle zone
         this.currentZone = zone ;
         cycleDeVie -- ;
@@ -130,7 +130,7 @@ public class Requin extends Thread {
             //le pilote n'est plus libre
             poisonPilote.setLibre(false);
 
-            System.out.println("Le poison pilote " + poisonPilote.getNom() + " a commencé à suivre le requin " + nom + " dans la zone " + currentZone.getNom());
+            //System.out.println("Le poison pilote " + poisonPilote.getNom() + " a commencé à suivre le requin " + nom + " dans la zone " + currentZone.getNom());
             notifyAll();
         }
 
@@ -149,7 +149,7 @@ public class Requin extends Thread {
             //le pilote est libre à nouveau
             poisonPilote.setLibre(true) ;
 
-            System.out.println("Le poison pilote "+poisonPilote.getNom()+" a arreté de suivre le requin "+nom+" dans la zone "+currentZone.getNom());
+            //System.out.println("Le poison pilote "+poisonPilote.getNom()+" a arreté de suivre le requin "+nom+" dans la zone "+currentZone.getNom());
 
             notifyAll();
 

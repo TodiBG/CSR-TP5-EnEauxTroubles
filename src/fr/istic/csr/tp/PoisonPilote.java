@@ -41,11 +41,11 @@ public class PoisonPilote extends Thread {
         return zone;
     }
 
-    public void setZone(Zone zone) {
+    public synchronized void setZone(Zone zone) {
         this.zone = zone;
     }
 
-    public void setRequin(Requin requin) {
+    public synchronized void setRequin(Requin requin) {
         this.requin = requin;
     }
 
