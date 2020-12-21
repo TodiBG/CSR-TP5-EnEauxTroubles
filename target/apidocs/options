@@ -1,23 +1,23 @@
 -classpath
-'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/tp-restlet-twitter/target/classes;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.lib.org.json/2.0/org.restlet.lib.org.json-2.0.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet/2.1.1/org.restlet-2.1.1.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.ext.xml/2.1.1/org.restlet.ext.xml-2.1.1.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.ext.json/2.1.1/org.restlet.ext.json-2.1.1.jar'
+'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/TP5/target/classes;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.lib.org.json/2.0/org.restlet.lib.org.json-2.0.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet/2.1.1/org.restlet-2.1.1.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.ext.xml/2.1.1/org.restlet.ext.xml-2.1.1.jar;C:/Users/Todi BG/.m2/repository/org/restlet/jse/org.restlet.ext.json/2.1.1/org.restlet.ext.json-2.1.1.jar'
 -encoding
 'Cp1252'
 -protected
 -sourcepath
-'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/tp-restlet-twitter/src/main/java'
+'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/TP5/src/main/java'
 -author
 -bottom
 'Copyright &#169; 2020. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/tp-restlet-twitter/target/apidocs'
+'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/TP5/target/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
 'My Twitter Application 0.0.1 API'
 -linkoffline
-'http://download.oracle.com/javase/6/docs/api' 'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/tp-restlet-twitter/target/javadoc-bundle-options'
+'http://download.oracle.com/javase/6/docs/api' 'C:/Users/Todi BG/Documents/Todi BG/Cours/CCSR/TPs/TP5/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle

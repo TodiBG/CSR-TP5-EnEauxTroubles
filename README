@@ -1,92 +1,31 @@
 
-TP-Restlet
 
-*****
-* Objectif
-*****
+Installatiom de l’application :
+La compilation des fichier sources et la génération du JAR de l'application se fera à travers l'outil maven.
+Si vous avez besoin de l'installer, rendez-vous à l'adresse https://maven.apache.org/.
+Une fois maven installé, ouvrez le fichier 'pom.xml' et notez les dépendances. C'est le moment d'utiliser la ligne de commande.
+Pour générer le JAR de l'application, allez à la racine du projet (là où se trouve le fichier 'pom.xml') et entrez la
+commande `mvn package`. Vous venez de créer le JAR de l'application, qui doit se trouver dans un nouveau répertoire 'target'.
+Vous pouvez lancer le serveur avec la commande `java -jar uber-mta-0.0.1.jar` lancée depuis l'intérieur du répertoire 'target'.
+Le serveur doit maintenant tourner, et être prêt à recevoir vos requêtes.
 
-L'objectif principal de ce TP est de construire une API REST de type Twitter
-en utilisant le framework Restlet. (http://restlet.com/).
-
-*****
-* Découverte
-*****
-
-Explorez les sources et familiarisez vous avec l'architecture de l'application.
-Pour cela, vous pouvez suivre l'ordre suivant:
-    - les objets internes
-    - la base de données en mémoire
-    - les ressources
-    - l'application
-
-
-La compilation des fichier sources et la génération du JAR de l'application
-se fera à travers l'outil maven. Si vous avez besoin de l'installer,
-rendez-vous à l'adresse https://maven.apache.org/.
-
-Une fois maven installé, ouvrez le fichier 'pom.xml' et notez les dépendances.
-C'est le moment d'utiliser la ligne de commande. Pour générer le JAR de
-l'application, allez à la racine du projet (là où se trouve le fichier
-'pom.xml') et entrez la commande `mvn package`. Vous venez de créer le JAR de votre 
-application, qui doit se trouver dans un nouveau répertoire 'target'. Vous
-pouvez lancer le serveur avec la commande `java -jar uber-mta-0.0.1.jar` lancée
-depuis l'intérieur du répertoire 'target'.
+Nous avons dejà lancé la commande 'mvn package' pour générer les fichier jar. Vous pouvez tout simplement lancer
+le serveur avec  la commande java -jar uber-mta-0.0.1.jar.
 
 Le serveur doit maintenant tourner, et être prêt à recevoir vos requêtes.
 Essayons les requêtes suivantes, que vous pouvez lancer depuis un autre
 terminal:
 
-    $ curl http://localhost:8124/users
-    $ curl -X POST -H 'Content-type:application/json' -H 'Accept:application/json' -d '{"name":"peter", "age":30}' http://localhost:8124/users
+Pour récupérer la liste des zone
+    http://localhost:8124/zones
+Pour récupérer les informations d'une zone (présence ou absence d'un requin, nombre de sardines restantes) :
+    curl http://localhost:8124/zones/{zone_id}
+Pour récupérer le nombre de requins encore présents dans la simulation :
+    curl http://localhost:8124/sharks
+Pour demarrer un requin dans une zone de façaon aléatoire taper cette command :
+   curl -X POST -H "Content-type:application/json" -H "Accept:application/json" -d "{ \"vie\":30}" http://localhost:8124/sharks
+Pour récupérer la position d'un requin et son temps de vie restant:
+    curl http://localhost:8124/{shark_id}
+Pour récupérer le nombre global de sardines restantes
+    curl http://localhost:8124/tunas
 
-    Sous Windows :
-     curl -X POST -H "Content-type:application/json" -H "Accept:application/json" -d "{\"name\":\"peter\", \"age\":30}" http://localhost:8124/users
-
-Vous pouvez ouvrir un navigateur et entrer l'adresse http://localhost:8124/users
-
-Observez le résultat des requêtes du côté des clients (curl et navigateur) et
-l'output côté serveur.
-
- curl -X POST -H "Content-type:application/json" -H "Accept:application/json" -d "{ \"vie\":30}" http://localhost:8124/sharks
-
-*****
-* API
-*****
-
-Nous souhaitons mettre en place l'API suivante:
-
-URI                     | commande   | description
---------------------------------------------------------------------
-/users                  | GET        | retourne la liste des utilisateurs 
-/users                  | POST       | ajoute un utilisateur
-/users/{userId}         | GET        | retourne la description de l'utilisateur {userId} 
-/users/{userId}         | DELETE     | supprime l'utilisateur {userId}
-/users/{userId}/tweets  | POST       | ajoute un tweet à la liste des tweets de l'utilisateur {userId}
-/users/{userId}/tweets  | GET        | retourne la liste des tweets de l'utilisateur {userId}
-
-Une partie de l'API est actuellement supportée par l'application. A vous de la compléter.
-
-
-*****
-* Roadmap primaire 
-*****
-
-* Ajouter la classe Tweet aux 'internals' et modifiez la classe User
-pour qu'un utilisateur ait sa propre liste de tweets.
-
-* Ajouter une classe TweetsResource vers laquelle les requêtes pour l'URI 
-/users/{userId}/tweets seront dirigées 
-
-* Rajoutez l'URI /users/{userId}/tweets et son mapping vers la classe
-TweetsResource.
-
-* Testez régulièrement
-
-*****
-* Roadmap secondaire
-*****
-
-* Ajouter la fonctionnalité de suppression d'un utilisateur
-
-* Ajouter une URI /users/tweets qui retourne l'ensemble des tweets de tous les
-utilisateurs sur réception d'une requête de type GET
